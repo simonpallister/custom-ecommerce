@@ -13,7 +13,7 @@ export default async function handler(req, res) {
         syncCategories(),
         syncCustomers(),
         syncOrders(),
-        syncProducts()
+        syncProducts(),
         createWebhooks(),
     ]).then(
         console.log("Sync Complete")
