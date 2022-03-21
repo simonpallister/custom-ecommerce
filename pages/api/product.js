@@ -5,8 +5,6 @@ export default async function handler(req, res) {
 
   const { body } = req
 
-  console.log(body)
-
   if (req.method != "POST"){
     res.status(400).json({error: {code: 400, message: "Method Not Allowed"}})
     return
@@ -25,24 +23,22 @@ export default async function handler(req, res) {
       res.status(200).json("")
     }
 
-    const { data : { data : product }} = await axios.get(`https://api.bigcommerce.com/stores/${process.env.BC_STORE_ID}/v3/catalog/products/${product_id}?include=primary_image,variants`, {
+    const { data : { data : product }} = await axios.get(`https://api.bigcommerce.com/stores/${process.env.NEXT_PUBLIC_BC_STORE_ID}/v3/catalog/products/${product_id}?include=primary_image,variants`, {
         headers: {
             "Accept": "application/json",
-            "X-Auth-Token": process.env.BC_AUTH_TOKEN
+            "X-Auth-Token": process.env.NEXT_PUBLIC_BC_AUTH_TOKEN
         }
     })
-
-    console.log(product)
 
     const events = [
       {
         resource: "product",
         event: `${scope[2]}`,
-        data_source_id: process.env.AP_DATA_SOURCE_ID,
+        data_source_id: process.env.NEXT_PUBLIC_AP_DATA_SOURCE_ID,
         data: {
             id: product.id.toString(),
             name: product.name,
-            url: `${process.env.BC_STORE}${product.custom_url.url}`,
+            url: `${process.env.NEXT_PUBLIC_BC_STORE}${product.custom_url.url}`,
             description: product.description,
             sku: product.sku,
             stock_quantity: product.inventory_level,
@@ -56,7 +52,7 @@ export default async function handler(req, res) {
     ]
 
     const result = await execute(events)
-    console.log(result)
+    console.log(`Product ${product_id} ${scope[2]}`)
     res.status(200).json({ message: `Product ${product_id} ${scope[2]}` })
 
 

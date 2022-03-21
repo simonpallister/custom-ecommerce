@@ -5,8 +5,6 @@ export default async function handler(req, res) {
 
   const { body } = req
 
-  console.log(body)
-
   if (req.method != "POST"){
     res.status(400).json({error: {code: 400, message: "Method Not Allowed"}})
     return
@@ -21,20 +19,18 @@ export default async function handler(req, res) {
     }
     const subscriber_id = body.data.id
 
-    const { data : { data : subscriber }} = await axios.get(`https://api.bigcommerce.com/stores/${process.env.BC_STORE_ID}/v3/customers/subscribers/${subscriber_id}`, {
+    const { data : { data : subscriber }} = await axios.get(`https://api.bigcommerce.com/stores/${process.env.NEXT_PUBLIC_BC_STORE_ID}/v3/customers/subscribers/${subscriber_id}`, {
         headers: {
             "Accept": "application/json",
-            "X-Auth-Token": process.env.BC_AUTH_TOKEN
+            "X-Auth-Token": process.env.NEXT_PUBLIC_BC_AUTH_TOKEN
         }
     })
-
-    console.log(subscriber)
 
     const events = [
       {
         resource: "customer",
         event: `${scope[2]}`,
-        data_source_id: process.env.AP_DATA_SOURCE,
+        data_source_id: process.env.NEXT_PUBLIC_AP_DATA_SOURCE,
         data: {
             id: subscriber.id.toString(),
             email: subscriber.email,
@@ -47,8 +43,8 @@ export default async function handler(req, res) {
     ]
 
     const result = await execute(events)
-    console.log(result)
-    res.status(200).json({ message: `Subscriber ${product_id} ${scope[2]}` })
+    console.log(`Subscriber ${subscriber.id} ${scope[2]}`)
+    res.status(200).json({ message: `Subscriber ${subscriber.id} ${scope[2]}` })
 
 
   } catch (e)
