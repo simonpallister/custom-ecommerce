@@ -24,7 +24,8 @@ const get_product_count = async (category_id) => {
 
   return response.data.meta.pagination.total
 }
-export default function handler(req, res) {
+
+export default async function handler(req, res) {
   const { body } = req
 
   if (req.method != "POST"){
