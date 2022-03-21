@@ -120,15 +120,16 @@ export default async function handler(req, res) {
           shipping_total: parseFloat(order.shipping_cost_inc_tax),
           shipping_tax: parseFloat(order.shipping_cost_tax),
           payment_method: order.payment_method,
-            line_items: line_items,
-            coupon_codes: ["CODE"],
-            created_at: new Date(order.date_created).toISOString(),
-            updated_at: new Date(order.date_modified).toISOString()
+          line_items: line_items,
+          coupon_codes: [],
+          created_at: new Date(order.date_created).toISOString(),
+          updated_at: new Date(order.date_modified).toISOString()
 
         }
-  
       }
     ]
+
+    console.log('Discount',parseFloat(order.discount_amount))
 
     const result = await execute(events)
     console.log(`Order ${order_id} ${scope[2]}`)
