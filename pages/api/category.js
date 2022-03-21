@@ -28,6 +28,8 @@ const get_product_count = async (category_id) => {
 export default async function handler(req, res) {
   const { body } = req
 
+  console.log(body)
+
   if (req.method != "POST"){
     res.status(400).json({error: {code: 400, message: "Method Not Allowed"}})
     return
