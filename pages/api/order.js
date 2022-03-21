@@ -51,9 +51,12 @@ export default async function handler(req, res) {
             name: product.name,
             quantity: product.quantity,
             total_price: parseFloat(product.price_inc_tax),
-            total_tax: parseFloat(product.total_tax)
+            total_tax: parseFloat(product.total_tax),
+            image_url: product.primary_image?.url_standard
         }
     })
+
+    console.log(line_items)
 
     const events = [
       {
