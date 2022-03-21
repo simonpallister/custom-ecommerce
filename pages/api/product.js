@@ -21,6 +21,8 @@ export default async function handler(req, res) {
     }
     const product_id = body.data.id
 
+    console.log("product_id",product_id)
+
     if (scope[2]=='inventory'){
       res.status(200).json("")
     }
