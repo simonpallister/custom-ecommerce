@@ -30,6 +30,22 @@ export default async function handler(req, res) {
 
   console.log(body)
 
+  if (req.method === "GET"){
+    console.log("test")
+    const response = await axios.post('https://api.ap3api.com/v1/ecommerce/categories', 
+      "{}",
+      {
+        headers: {
+          "X-Api-Key": process.env.NEXT_PUBLIC_AP_API_KEY,
+          "Content-Type": "application/json"
+        }
+      }
+    )
+    res.status(200).json(response.data)
+    return
+  }
+
+
   if (req.method != "POST"){
     res.status(400).json({error: {code: 400, message: "Method Not Allowed"}})
     return

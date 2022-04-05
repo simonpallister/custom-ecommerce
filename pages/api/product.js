@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { responseSymbol } from 'next/dist/server/web/spec-compliant/fetch-event'
 import execute from '../../lib/ortto'
 
 export default async function handler(req, res) {
@@ -6,6 +7,21 @@ export default async function handler(req, res) {
   const { body } = req
 
   console.log(body)
+
+  if (req.method === "GET"){
+    const response = await axios.post('https://api.ap3api.com/v1/ecommerce/products', 
+      "{}",
+      {
+        headers: {
+          "X-Api-Key": process.env.NEXT_PUBLIC_AP_API_KEY,
+          "Content-Type": "application/json"
+        }
+      }
+    )
+    res.status(200).json(response.data)
+    return
+  }
+
 
   if (req.method != "POST"){
     res.status(400).json({error: {code: 400, message: "Method Not Allowed"}})
@@ -30,7 +46,7 @@ export default async function handler(req, res) {
     const { data : { data : product }} = await axios.get(`https://api.bigcommerce.com/stores/${process.env.NEXT_PUBLIC_BC_STORE_ID}/v3/catalog/products/${product_id}?include=primary_image,variants`, {
         headers: {
             "Accept": "application/json",
-            "X-Auth-Token": process.env.NEXT_PUBLIC_BC_AUTH_TOKEN
+            "X-Auth-Token": process.env.process.env.NEXT_PUBLIC_AP_API_KEY
         }
     })
 
