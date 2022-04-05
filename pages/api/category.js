@@ -31,7 +31,6 @@ export default async function handler(req, res) {
   console.log(body)
 
   if (req.method === "GET"){
-    console.log("test")
     const response = await axios.post('https://api.ap3api.com/v1/ecommerce/categories', 
       "{}",
       {
