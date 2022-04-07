@@ -3,10 +3,10 @@ import execute from '../../lib/ortto'
 
 const get_order_products = async (order_id) => {
 
-  const response = await axios.get(`https://api.bigcommerce.com/stores/${process.env.NEXT_PUBLIC_BC_STORE_ID}/v2/orders/${order_id}/products`, {
+  const response = await axios.get(`https://api.bigcommerce.com/stores/${process.env.BC_STORE_ID}/v2/orders/${order_id}/products`, {
       headers: {
           "Accept": "application/json",
-          "X-Auth-Token": process.env.NEXT_PUBLIC_BC_AUTH_TOKEN
+          "X-Auth-Token": process.env.BC_AUTH_TOKEN
       }
   })
 
@@ -37,10 +37,10 @@ export default async function handler(req, res) {
       res.status(200).json("")
     }
 
-    const { data : order } = await axios.get(`https://api.bigcommerce.com/stores/${process.env.NEXT_PUBLIC_BC_STORE_ID}/v2/orders/${order_id}`, {
+    const { data : order } = await axios.get(`https://api.bigcommerce.com/stores/${process.env.BC_STORE_ID}/v2/orders/${order_id}`, {
         headers: {
             "Accept": "application/json",
-            "X-Auth-Token": process.env.NEXT_PUBLIC_BC_AUTH_TOKEN
+            "X-Auth-Token": process.env.BC_AUTH_TOKEN
         }
     })
 
@@ -64,7 +64,7 @@ export default async function handler(req, res) {
       {
         resource: "order",
         event: "created", // "`${scope[2]}`",
-        data_source_id: process.env.NEXT_PUBLIC_AP_DATA_SOURCE_ID,
+        data_source_id: process.env.AP_DATA_SOURCE_ID,
         customer: {
           id: order.customer_id.toString(),
           email: order.billing_address.email,

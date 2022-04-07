@@ -3,10 +3,10 @@ import execute from '../../lib/ortto'
 
 const get_categories = async (page) => {
 
-  const response = await axios.get(`https://api.bigcommerce.com/stores/${process.env.NEXT_PUBLIC_BC_STORE_ID}/v3/catalog/categories/?limit=20&page=${page}`, {
+  const response = await axios.get(`https://api.bigcommerce.com/stores/${process.env.BC_STORE_ID}/v3/catalog/categories/?limit=20&page=${page}`, {
       headers: {
           "Accept": "application/json",
-          "X-Auth-Token": process.env.NEXT_PUBLIC_BC_AUTH_TOKEN
+          "X-Auth-Token": process.env.BC_AUTH_TOKEN
       }
   })
 
@@ -15,10 +15,10 @@ const get_categories = async (page) => {
 
 const get_product_count = async (category_id) => {
 
-  const response = await axios.get(`https://api.bigcommerce.com/stores/${process.env.NEXT_PUBLIC_BC_STORE_ID}/v3/catalog/products?categories:in=${category_id}&limit=1`, {
+  const response = await axios.get(`https://api.bigcommerce.com/stores/${process.env.BC_STORE_ID}/v3/catalog/products?categories:in=${category_id}&limit=1`, {
       headers: {
           "Accept": "application/json",
-          "X-Auth-Token": process.env.NEXT_PUBLIC_BC_AUTH_TOKEN
+          "X-Auth-Token": process.env.BC_AUTH_TOKEN
       }
   })
 
@@ -35,7 +35,7 @@ export default async function handler(req, res) {
       "{}",
       {
         headers: {
-          "X-Api-Key": process.env.NEXT_PUBLIC_AP_API_KEY,
+          "X-Api-Key": process.env.AP_API_KEY,
           "Content-Type": "application/json"
         }
       }
@@ -59,10 +59,10 @@ export default async function handler(req, res) {
       return
     }
 
-    const { data : category } = await axios.get(`https://api.bigcommerce.com/stores/${process.env.NEXT_PUBLIC_BC_STORE_ID}/v2/catalog/categories/${categoryId_id}`, {
+    const { data : category } = await axios.get(`https://api.bigcommerce.com/stores/${process.env.BC_STORE_ID}/v2/catalog/categories/${categoryId_id}`, {
         headers: {
             "Accept": "application/json",
-            "X-Auth-Token": process.env.NEXT_PUBLIC_BC_AUTH_TOKEN
+            "X-Auth-Token": process.env.BC_AUTH_TOKEN
         }
     })
 
@@ -70,12 +70,12 @@ export default async function handler(req, res) {
       {
         resource: "category",
         event: "created", // "`${scope[2]}`",
-        data_source_id: process.env.NEXT_PUBLIC_AP_DATA_SOURCE_ID,
+        data_source_id: process.env.AP_DATA_SOURCE_ID,
         data: {
           id: category.id.toString(),
           name: category.name,
           slug: category.custom_url.url,
-          url: `${process.env.NEXT_PUBLIC_BC_STORE_DOMAIN}`+category.custom_url.url,
+          url: `${process.env.BC_STORE_DOMAIN}`+category.custom_url.url,
           description: category.description,
           total_products: product_count,
           image_url: category.image_url

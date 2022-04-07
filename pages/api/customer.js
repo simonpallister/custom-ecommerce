@@ -22,11 +22,11 @@ export default async function handler(req, res) {
     const order_id = body.data.id;
 
     const { data: customer } = await axios.get(
-      `https://api.bigcommerce.com/stores/${process.env.NEXT_PUBLIC_BC_STORE_ID}/v3/customers/${order_id}`,
+      `https://api.bigcommerce.com/stores/${process.env.BC_STORE_ID}/v3/customers/${order_id}`,
       {
         headers: {
           Accept: "application/json",
-          "X-Auth-Token": process.env.NEXT_PUBLIC_BC_AUTH_TOKEN,
+          "X-Auth-Token": process.env.BC_AUTH_TOKEN,
         },
       }
     );
@@ -35,7 +35,7 @@ export default async function handler(req, res) {
       {
         resource: "customer",
         event: "created", // "`${scope[2]}`",
-        data_source_id: process.env.NEXT_PUBLIC_AP_DATA_SOURCE_ID,
+        data_source_id: process.env.AP_DATA_SOURCE_ID,
         data: {
           id: customer.id.toString(),
           email: customer.email,

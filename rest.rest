@@ -6,96 +6,36 @@ X-Api-Key: PRV-customecommerce-1shR82MB-CTlwRWHRrSJLFL8qvdgbJlucXZl5vmBwvg
     "events": [
         {
             "resource": "product",
-            "event": "viewed",
-            "data_source_id": "624d2643351263fbfa3943c1",
-            "customer" : {
-                "id": "anything",
-                "email": "simon@ortto.com"
-            },
-            "data": {
-                "id": "122",
-                "variant_id": "99"
-            }
-        }
+            "event": "deleted",
+            "data_source_id": "62327644b185efab5195e842",
+            "data": { "id": "113", "variant_id": "", "updated_at": "2022-03-21T01:36:46Z" }
+}
     ],
     "async": false
 }
 
 ###
-const https = require('https');
+GET https://api.bigcommerce.com/stores/h98d0e4glr/v3/carts/5d978238-1552-4932-be07-cfa2c8cc195b?include=line_items.physical_items.options
+Content-Type: application/json
+X-Auth-Token: 7kiueoy9m6jwqq3xtonlqmoifrij1w5
 
-const data = `{
-	"events": [
-		{
-			"resource": "product",
-			"event": "added_to_cart",
-			"data_source_id": "624d2643351263fbfa3943c1",
-			"customer": {
-				"id": "1",
-				"email": "john.doe@mailinator.new",
-				"email_marketing": true,
-				"phone": "+61430000000",
-				"sms_opt_in": true,
-				"first_name": "John",
-				"last_name": "Doe",
-				"orders_count": 1,
-				"total_spent": 45,
-				"address": {
-					"first_name": "John",
-					"last_name": "Doe",
-					"address1": "24\\/892 Test Road",
-					"city": "Freshwater",
-					"state": "New South Wales",
-					"postcode": "2096",
-					"country": "Australia"
-				},
-				"created_at": "2022-04-05T06:00:17.109401001Z",
-				"updated_at": "2022-04-05T06:00:17.109401001Z"
-			},
-			"data": {
-				"id": "1",
-				"variant_id": "1",
-				"name": "STACKING TOWER",
-				"brand": "Toys INC.",
-				"url": "https://my-store-url.com/toys/stacking-tower",
-				"description": "\nClassic toy.\n\nOur stacking tower is made of 100% BPA free silicone and is super soft to touch.\nIt is fun for children to play with and great for practicing coordination and motor skills.\nThe stacking tower can be stacked in multiple ways and comes in beautiful colour palettes.\n\nCE marked.\n100% BPA free silicone.\n\nColor: Blue multi mix\nQuality: 100% silicone\nDimensions: D 10 cm / H 13 cm\n",
-				"sku": "XXX12",
-				"stock_quantity": 999,
-				"price": 45,
-				"regular_price": 45,
-				"categories": [
-					"1"
-				],
-				"tags": [
-					"babies",
-					"playtime"
-				],
-				"image_url": "https://my-store-url.com/images/toys/stacking-tower.png",
-				"created_at": "2022-04-05T06:00:17.109401001Z",
-				"updated_at": "2022-04-05T06:00:17.109401001Z"
-			}
-		}
-	],
-	"async": false
-}`;
+###
+GET https://api.bigcommerce.com/stores/h98d0e4glr/v3/checkouts/5d978238-1552-4932-be07-cfa2c8cc195b?include=cart.line_items.physical_items.options
+Content-Type: application/json
+X-Auth-Token: 7kiueoy9m6jwqq3xtonlqmoifrij1w5
 
-const options = {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'X-Api-Key': 'PRV-customecommerce-iXv_3jqZxh5Hoi3dtR0RMzSER6MmAUIedRS2uYTx5QY',
-        'Content-Length': data.length
-    }
-};
 
-const req = https.request('https://api.ap3api.com/v1/ecommerce/event', options, res => {
-    res.on('data', d => {
-        process.stdout.write(d);
-    });
-});
+###
+GET https://api.bigcommerce.com/stores/h98d0e4glr/v3/hooks
+Content-Type: application/json
+X-Auth-Token: 7kiueoy9m6jwqq3xtonlqmoifrij1w5
 
-req.on('error', error => {
-    console.error(error);
-});
-req.write(data);
-req.end();
+{
+ "scope": "store/cart/*",
+ "destination": "https://ortto-commerce.loca.lt/api/cart",
+ "is_active": true
+}
+
+###
+DELETE http://localhost:3000/api/product
+Content-Type: application/json
