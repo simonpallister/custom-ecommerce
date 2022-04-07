@@ -22,8 +22,6 @@ API Endpoints at :
 /api/product
 /api/subscriber
 /api/sync
-
-
 ```
 
 
