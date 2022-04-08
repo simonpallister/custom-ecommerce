@@ -34,7 +34,7 @@ export default async function handler(req, res) {
     const events = [
       {
         resource: "customer",
-        event: "created", // "`${scope[2]}`",
+        event: scope[2],
         data_source_id: process.env.AP_DATA_SOURCE_ID,
         data: {
           id: customer.id.toString(),
@@ -55,7 +55,8 @@ export default async function handler(req, res) {
     console.log(`Customer ${customer_id} ${scope[2]}`);
     res.status(200).json({ message: `Customer ${customer_id} ${scope[2]}` });
   } catch (e) {
-    res.status(400).json({ error: e.toString() });
+    console.log(e)
+    res.status(200).json({ error: e.toString() });
     return;
   }
 }

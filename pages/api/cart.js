@@ -64,12 +64,10 @@ export default async function handler(req, res) {
 
     })
 
-    console.log("line_item",line_items)
-
     const events = [
       {
         resource: "cart",
-        event: `${scope[2]}`,
+        event: scope[2],
         data_source_id: process.env.AP_DATA_SOURCE_ID,
         customer: {
           id: cart.customer_id.toString(),
@@ -92,17 +90,13 @@ export default async function handler(req, res) {
       },
     ]
 
-    console.log(events)
-    console.log(events[0].data)
-
     const result = await execute(events)
-    console.log(result)
     console.log(`Cart ${cart_id} ${scope[2]}`)
     res.status(200).json({ message: `Cart ${cart_id} ${scope[2]}` })
 
   } catch (e) {
-    console.log(e.toString())
-    res.status(400).json({ error: e.toString() })
+    console.log(e)
+    res.status(200).json({ error: e.toString() })
     return
   }
 }

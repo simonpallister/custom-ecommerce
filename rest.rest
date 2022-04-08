@@ -1,0 +1,89 @@
+get https://api.bigcommerce.com/stores/h98d0e4glr/v3/hooks
+Accept: application/json
+X-Auth-Token: 7kiueoy9m6jwqq3xtonlqmoifrij1w5
+
+###
+PUT https://api.bigcommerce.com/stores/h98d0e4glr/v3/hooks/23526044
+Content-Type: application/json
+X-Auth-Token: 7kiueoy9m6jwqq3xtonlqmoifrij1w5
+
+{
+  "is_active": true
+}
+
+###
+get https://api.bigcommerce.com/stores/h98d0e4glr/v3/catalog/products?include=primary_image,variants&limit=10&id:in=122
+Content-Type: application/json
+X-Auth-Token: 7kiueoy9m6jwqq3xtonlqmoifrij1w5
+
+
+###
+POST https://custome-commerce.vercel.app/api/order
+Content-Type: application/json
+Accept: application/json
+
+{
+  "created_at": 1561482670,
+  "store_id": "1025646",
+  "producer": "stores/{store_hash}",
+  "scope": "store/order/updated",
+  "hash": "352e4afc6dd3fc85ea26bfdf3f91852604d57528",
+  "data": {
+    "type": "order",
+    "id": 108
+  }
+}
+
+###
+GET https://api.bigcommerce.com/stores/h98d0e4glr/v3/catalog/categories
+Content-Type: application/json
+X-Auth-Token: 7kiueoy9m6jwqq3xtonlqmoifrij1w5
+
+###
+POST https://ortto.loca.lt/api/order
+Content-Type: application/json
+Accept: application/json
+
+{
+  "created_at": 1561482670,
+  "store_id": "1025646",
+  "producer": "stores/{store_hash}",
+  "scope": "store/order/updated",
+  "hash": "352e4afc6dd3fc85ea26bfdf3f91852604d57528",
+  "data": {
+    "type": "updated",
+    "id": 125
+  }
+}
+
+###
+GET https://api.bigcommerce.com/stores/h98d0e4glr/v3/catalog/products/125?include=primary_image,variants
+Accept: application/json
+X-Auth-Token: 7kiueoy9m6jwqq3xtonlqmoifrij1w5
+
+
+###
+POST https://api.ap3api.com/v1/ecommerce/event
+Content-Type: application/json
+X-Api-Key: PRV-customecommerce-1shR82MB-CTlwRWHRrSJLFL8qvdgbJlucXZl5vmBwvg
+
+{
+  "events": [
+    {
+      "resource": "category",
+      "event": "deleted",
+      "data_source_id": "62327644b185efab5195e842",
+      "data": {
+        "id": "26"
+      }
+    }
+  ]
+}
+
+###
+GET https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/products/channel-assignments
+Accept: application/json
+X-Auth-Token: birxfucadqls8dobhg159zfn4ipakgo
+
+###
+POST 

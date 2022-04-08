@@ -15,7 +15,7 @@ const get_categories = async (page) => {
 
 const get_product_count = async (category_id) => {
 
-  const response = await axios.get(`https://api.bigcommerce.com/stores/${process.env.BC_STORE_ID}/v3/catalog/products?categories:in=${category_id}&limit=1`, {
+  const response = await axios.get(`https://api.bigcommerce.com/stores/${process.env.BC_STORE_ID}/v3/catalog/products?categories:in=${category_id}`, {
       headers: {
           "Accept": "application/json",
           "X-Auth-Token": process.env.BC_AUTH_TOKEN
@@ -50,7 +50,7 @@ export default async function handler(req, res) {
     return
   }
 
-  console.log()
+  const category_id = body.data.id
 
   try {
     const scope = body.scope.split("/")
@@ -59,29 +59,44 @@ export default async function handler(req, res) {
       return
     }
 
-    const { data : category } = await axios.get(`https://api.bigcommerce.com/stores/${process.env.BC_STORE_ID}/v2/catalog/categories/${categoryId_id}`, {
+    let events = []
+
+    if ( scope[2] === "deleted" ){
+      events = [
+        {
+          resource: "category",
+          event: scope[2],
+          data_source_id: process.env.AP_DATA_SOURCE_ID,
+          data: {
+            id: category_id,
+          }
+        }
+      ]
+    } else {
+      const { data : {data : category }} = await axios.get(`https://api.bigcommerce.com/stores/${process.env.BC_STORE_ID}/v3/catalog/categories/${category_id}`, {
         headers: {
             "Accept": "application/json",
             "X-Auth-Token": process.env.BC_AUTH_TOKEN
         }
-    })
+      })
 
-    const events = [
-      {
-        resource: "category",
-        event: "created", // "`${scope[2]}`",
-        data_source_id: process.env.AP_DATA_SOURCE_ID,
-        data: {
-          id: category.id.toString(),
-          name: category.name,
-          slug: category.custom_url.url,
-          url: `${process.env.BC_STORE_DOMAIN}`+category.custom_url.url,
-          description: category.description,
-          total_products: product_count,
-          image_url: category.image_url
+      events = [
+        {
+          resource: "category",
+          event: scope[2],
+          data_source_id: process.env.AP_DATA_SOURCE_ID,
+          data: {
+            id: category.id.toString(),
+            name: category.name,
+            slug: category.custom_url.url,
+            url: `${process.env.BC_STORE_DOMAIN}`+category.custom_url.url,
+            description: category.description,
+            total_products: await get_product_count(category_id),
+            image_url: category.image_url
+          }
         }
-      }
-    ]
+      ]
+    }
 
     const result = await execute(events)
     console.log(`Category ${category_id} ${scope[2]}`)
@@ -89,6 +104,7 @@ export default async function handler(req, res) {
 
   } catch (e)
   {
-    res.status(400).json({error: e.toString()})
+    console.log(e)
+    res.status(200).json({error: e.toString()})
     return
   }}
